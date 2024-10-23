@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade 2 - Number Patterns and Sequences</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #logo img {
+            width: 150px;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        #sequence {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        #missing-number {
+            width: 50px;
+            height: 30px;
+            font-size: 20px;
+            text-align: center;
+            margin: 20px;
+        }
+        #submit {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #feedback {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        #more-lessons {
+            margin-top: 40px;
+            font-size: 18px;
+            background-color: green;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        #more-lessons:hover {
+            background-color: darkgreen;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Logo at the top -->
+    <div id="logo">
+        <img src="https://i.imgur.com/mwpTHJj.png" alt="Logo">
+    </div>
+
+    <h1>Number Patterns and Sequences</h1>
+
+    <!-- Number Sequence -->
+    <div id="sequence"></div>
+
+    <!-- Input for Missing Number -->
+    <input type="number" id="missing-number" placeholder="Your Answer">
+    <button id="submit">Submit</button>
+
+    <div id="feedback"></div>
+
+    <!-- "More Lessons" button at the bottom -->
+    <a id="more-lessons" href="https://sites.google.com/view/grades-2/home">More Lessons</a>
+
+    <script>
+        let sequence = [];
+        let difference;
+
+        // Generate a random number pattern
+        function generatePattern() {
+            const start = Math.floor(Math.random() * 10);
+            const patternType = Math.random() < 0.5 ? 3 : 5; // Randomly choose between adding 3 or 5
+            difference = patternType;
+
+            sequence = [];
+            for (let i = 0; i < 4; i++) {
+                sequence.push(start + i * difference);
+            }
+            // Set the last number to an empty value to represent the missing number
+            sequence.push("___");
+            document.getElementById('sequence').innerText = sequence.join(", ");
+            document.getElementById('feedback').innerText = ''; // Clear feedback
+            document.getElementById('missing-number').value = ''; // Clear input
+        }
+
+        // Check the user's answer
+        function checkAnswer() {
+            const userAnswer = parseInt(document.getElementById('missing-number').value);
+            const correctAnswer = sequence[sequence.length - 2] + difference; // The last filled number plus the difference
+
+            if (userAnswer === correctAnswer) {
+                document.getElementById('feedback').innerText = "Correct! Well done!";
+                document.getElementById('feedback').style.color = "green";
+                setTimeout(generatePattern, 2000); // Move to next question after 2 seconds
+            } else {
+                document.getElementById('feedback').innerText = "Oops! Try again!";
+                document.getElementById('feedback').style.color = "red";
+                document.getElementById('missing-number').value = ''; // Clear the input for retry
+            }
+        }
+
+        // Initialize pattern on page load
+        window.onload = function() {
+            generatePattern();
+            document.getElementById('submit').onclick = checkAnswer; // Set up the submit button
+        }
+    </script>
+
+</body>
+</html>
